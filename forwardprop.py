@@ -37,3 +37,11 @@ def backward_prop(x,A,y):
 
 dw = backward_prop(x,A,y)
 print(dw)
+
+learning_rate = 0.01
+
+def updateweight(w,dw,learning_rate):
+    return w - (learning_rate*dw)
+
+w = updateweight(w,dw,learning_rate)
+print(w)
