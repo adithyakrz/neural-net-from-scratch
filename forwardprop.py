@@ -14,5 +14,15 @@ def activation(z):
 z = forward_sum(x,w,b)
 print(z)
 
-a = activation(z)
-print(a)
+A = activation(z)
+print(A)
+
+y = np.array([[1, 0], [0, 1]])
+
+def mse_loss(A,y):
+    res = (np.subtract(y,A))**2
+
+    return np.mean(res)
+
+loss = mse_loss(A,y)
+print(loss)
