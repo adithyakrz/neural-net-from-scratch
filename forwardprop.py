@@ -20,9 +20,20 @@ print(A)
 y = np.array([[1, 0], [0, 1]])
 
 def mse_loss(A,y):
-    res = (np.subtract(y,A))**2
+    res = (np.subtract(A,y))**2
 
     return np.mean(res)
 
 loss = mse_loss(A,y)
 print(loss)
+
+
+def backward_prop(x,A,y):
+    error = A-y
+    product = error * A * (1-A)
+    res = np.dot(x.T,product)
+    dw = res/x.shape[0]
+    return dw
+
+dw = backward_prop(x,A,y)
+print(dw)
