@@ -11,11 +11,7 @@ def forward_sum(x,w,b):
 
 def activation(z):
     return (1)/(1+np.exp(-z))
-z = forward_sum(x,w,b)
-print(z)
 
-A = activation(z)
-print(A)
 
 y = np.array([[1, 0], [0, 1]])
 
@@ -24,24 +20,30 @@ def mse_loss(A,y):
 
     return np.mean(res)
 
-loss = mse_loss(A,y)
-print(loss)
 
 
 def backward_prop(x,A,y):
     error = A-y
     product = error * A * (1-A)
+    db = np.mean(product,axis=0)
     res = np.dot(x.T,product)
     dw = res/x.shape[0]
-    return dw
+    return dw,db
 
-dw = backward_prop(x,A,y)
-print(dw)
 
-learning_rate = 0.01
+def updateweight(w,b,dw,db,learning_rate):
+    new_w =  w - (learning_rate*dw)
+    new_b = b - (learning_rate*db)
+    return new_w,new_b
 
-def updateweight(w,dw,learning_rate):
-    return w - (learning_rate*dw)
 
-w = updateweight(w,dw,learning_rate)
-print(w)
+epochs = 1000
+for i in range(epochs):
+    z = forward_sum(x,w,b)
+    A = activation(z)
+    loss = mse_loss(A,y)
+    dw,db = backward_prop(x,A,y)
+    w,b = updateweight(w,b,dw,db,learning_rate=0.1)
+
+    if i % 100 == 0:
+        print("Loss(epoch: ",i,"): ",loss)
